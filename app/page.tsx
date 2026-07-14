@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
-const weddingDate = new Date("2026-10-18T10:00:00+07:00");
+const weddingDate = new Date("2026-08-22T10:00:00+07:00");
 
 function Flower({ className = "" }: { className?: string }) {
   return (
@@ -85,7 +85,7 @@ export default function Home() {
           <div className="heroBloom bloomRight"><Flower /><Flower /><Flower /></div>
           <p className="eyebrow">Two hearts, one promise</p>
           <h2>Reynaldo <span>&amp;</span><br />Herlina</h2>
-          <p className="heroDate">18 · 10 · 2026</p>
+          <p className="heroDate">22 · 08 · 2026</p>
           <p className="heroCopy">Sebuah perayaan tentang cinta yang tumbuh,<br />berakar dalam doa, dan mekar selamanya.</p>
           <a className="textLink" href="#event">Simpan tanggalnya <span>↓</span></a>
           <div className="heroSeal">R <i>&amp;</i> H<small>ever blooming</small></div>
@@ -142,25 +142,25 @@ export default function Home() {
             <article className="eventCard">
               <span className="eventNo">01</span>
               <p className="role">Pemberkatan</p>
-              <h3>Minggu, 18 Oktober 2026</h3>
-              <p className="time">10.00 <small>WIB</small></p>
+              <h3>Sabtu, 22 Agustus 2026</h3>
+              <p className="time">10.00–12.00 <small>WIB</small></p>
               <div className="rule" />
-              <h4>Nama Gereja</h4>
-              <p>Alamat lengkap lokasi pemberkatan</p>
-              <a href="https://maps.google.com" target="_blank" rel="noreferrer">Lihat lokasi ↗</a>
+              <h4>Gereja JKI Hananeel Cinta</h4>
+              <p>Blok Jl. Pangeran Tubagus Angke No.2 13, RT.13/RW.7, Jelambar Baru, Kec. Grogol Petamburan, Kota Jakarta Barat, DKI Jakarta 11460</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Gereja%20JKI%20Hananeel%20Cinta%20Jelambar%20Baru%20Jakarta%20Barat" target="_blank" rel="noreferrer">Lihat lokasi ↗</a>
             </article>
             <article className="eventCard reception">
               <span className="eventNo">02</span>
               <p className="role">Resepsi</p>
-              <h3>Minggu, 18 Oktober 2026</h3>
-              <p className="time">13.00 <small>WIB</small></p>
+              <h3>Sabtu, 22 Agustus 2026</h3>
+              <p className="time">18.00–22.00 <small>WIB</small></p>
               <div className="rule" />
-              <h4>Nama Gedung</h4>
-              <p>Alamat lengkap lokasi resepsi</p>
-              <a href="https://maps.google.com" target="_blank" rel="noreferrer">Lihat lokasi ↗</a>
+              <h4>Arion Suites Hotel Kemang</h4>
+              <p>Jl. Kemang Raya No.7, RT.4/RW.1, Bangka, Kec. Mampang Prapatan, Kota Jakarta Selatan, DKI Jakarta 12730</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Arion%20Suites%20Hotel%20Kemang%20Jakarta" target="_blank" rel="noreferrer">Lihat lokasi ↗</a>
             </article>
           </div>
-          <a className="calendarButton" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Reynaldo%20%26%20Herlina%20Wedding&dates=20261018T030000Z/20261018T090000Z" target="_blank" rel="noreferrer">＋ Tambahkan ke Kalender</a>
+          <a className="calendarButton" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Reynaldo%20%26%20Herlina%20Wedding&dates=20260822T030000Z/20260822T150000Z&details=Pemberkatan%2010.00%E2%80%9312.00%20WIB%20di%20Gereja%20JKI%20Hananeel%20Cinta.%20Resepsi%2018.00%E2%80%9322.00%20WIB%20di%20Arion%20Suites%20Hotel%20Kemang.&location=Jakarta" target="_blank" rel="noreferrer">＋ Tambahkan ke Kalender</a>
         </section>
 
         <section className="gallery section" id="gallery">

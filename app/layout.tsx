@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: { icon: "/favicon.svg" },
     openGraph: {
       title: "The Wedding of Reynaldo & Herlina",
-      description: "18 · 10 · 2026 — A love that keeps blooming.",
+      description: "22 · 08 · 2026 — A love that keeps blooming.",
       images: [{ url: image, width: 1736, height: 907, alt: "The Wedding of Reynaldo & Herlina" }],
       type: "website",
     },

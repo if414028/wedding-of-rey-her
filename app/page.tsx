@@ -2,24 +2,32 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
+type Wish = { id: string; timestamp: string; name: string; message: string };
+
 const weddingDate = new Date("2026-08-22T10:00:00+07:00");
 
 function Flower({ className = "" }: { className?: string }) {
   return (
     <span className={`flower ${className}`} aria-hidden="true">
-      <i /><i /><i /><i /><i /><b />
+      <img src="/images/floral-sprig.png" alt="" />
     </span>
   );
 }
 
 function Countdown() {
-  const [now, setNow] = useState(() => Date.now());
+  // Keep the server output and the browser's first render identical. The live
+  // clock starts only after hydration has completed in the browser.
+  const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
+    setNow(Date.now());
     const id = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(id);
   }, []);
 
   const parts = useMemo(() => {
+    if (now === null) {
+      return [["--", "Hari"], ["--", "Jam"], ["--", "Menit"], ["--", "Detik"]];
+    }
     const diff = Math.max(0, weddingDate.getTime() - now);
     return [
       [Math.floor(diff / 86_400_000), "Hari"],
@@ -44,10 +52,89 @@ function Countdown() {
 export default function Home() {
   const [opened, setOpened] = useState(false);
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [wishes, setWishes] = useState<Wish[]>([]);
+  const [guestName, setGuestName] = useState("Tamu Undangan");
+  const [guestSlug, setGuestSlug] = useState("");
 
-  function sendWish(event: FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    const slug = decodeURIComponent(window.location.pathname.split("/").filter(Boolean)[0] ?? "");
+    if (!slug) return;
+
+    setGuestSlug(slug);
+
+    const formattedName = slug
+      .replace(/-dan-/gi, " & ")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+
+    setGuestName(formattedName);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/wishes")
+      .then((response) => response.json())
+      .then((data: { ok?: boolean; wishes?: Wish[] }) => {
+        if (data.ok && Array.isArray(data.wishes)) setWishes(data.wishes);
+      })
+      .catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll<HTMLElement>(
+      ".invitation > section, .invitation > footer",
+    );
+
+    sections.forEach((section) => section.classList.add("sectionReveal"));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("isVisible");
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  async function sendWish(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSent(true);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    setSending(true);
+    setSent(false);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: guestName,
+          slug: guestSlug,
+          attendance: String(formData.get("attendance") || ""),
+          message: String(formData.get("message") || "").trim(),
+        }),
+      });
+      const result = (await response.json()) as { ok?: boolean; error?: string };
+      if (!response.ok || !result.ok) throw new Error(result.error || "Konfirmasi belum berhasil dikirim.");
+      setSent(true);
+      form.reset();
+
+      const wishesResponse = await fetch("/api/wishes");
+      const wishesResult = (await wishesResponse.json()) as { ok?: boolean; wishes?: Wish[] };
+      if (wishesResult.ok && Array.isArray(wishesResult.wishes)) setWishes(wishesResult.wishes);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : "Konfirmasi belum berhasil dikirim.");
+    } finally {
+      setSending(false);
+    }
   }
 
   return (
@@ -57,11 +144,9 @@ export default function Home() {
         <Flower className="coverFlower one" />
         <Flower className="coverFlower two" />
         <div className="coverCard">
-          <p className="eyebrow">The Wedding of</p>
-          <h1>Reynaldo <em>&amp;</em> Herlina</h1>
-          <div className="stem"><span /></div>
+          <img className="coverLogo" src="/images/wedding-logo-rh.png" alt="Monogram RH" />
           <p className="to">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-          <p className="guest">Tamu Undangan</p>
+          <p className="guest">{guestName}</p>
           <button className="primaryButton" onClick={() => setOpened(true)}>
             Buka Undangan <span>↗</span>
           </button>
@@ -70,25 +155,14 @@ export default function Home() {
       </section>
 
       <div className="invitation" aria-hidden={!opened}>
-        <nav className="nav" aria-label="Navigasi undangan">
-          <a className="monogram" href="#home">R<span>&amp;</span>H</a>
-          <div>
-            <a href="#story">Cerita</a>
-            <a href="#event">Acara</a>
-            <a href="#gallery">Galeri</a>
-            <a href="#wishes">Ucapan</a>
-          </div>
-        </nav>
-
         <section className="hero" id="home">
           <div className="heroBloom bloomLeft"><Flower /><Flower /><Flower /></div>
           <div className="heroBloom bloomRight"><Flower /><Flower /><Flower /></div>
           <p className="eyebrow">Two hearts, one promise</p>
-          <h2>Reynaldo <span>&amp;</span><br />Herlina</h2>
+          <img className="heroLogo" src="/images/hero-logo-rh.png" alt="Reynaldo dan Herlina" />
           <p className="heroDate">22 · 08 · 2026</p>
           <p className="heroCopy">Sebuah perayaan tentang cinta yang tumbuh,<br />berakar dalam doa, dan mekar selamanya.</p>
           <a className="textLink" href="#event">Simpan tanggalnya <span>↓</span></a>
-          <div className="heroSeal">R <i>&amp;</i> H<small>ever blooming</small></div>
         </section>
 
         <section className="verse section">
@@ -104,25 +178,29 @@ export default function Home() {
           </div>
           <div className="coupleGrid">
             <article className="personCard groom">
-              <div className="portrait portraitGroom"><span>R</span><Flower /></div>
+              <div className="portrait portraitGroom">
+                <img src="/images/groom-reynaldo.jpg" alt="Reynaldo Leoricci Mikhael Napitupulu" />
+              </div>
               <p className="role">The Groom</p>
-              <h3>Reynaldo Rici</h3>
-              <p>Putra terkasih dari<br />Bapak [Nama Ayah] &amp; Ibu [Nama Ibu]</p>
+              <h3>Reynaldo Leoricci Mikhael Napitupulu</h3>
+              <p>Putra terkasih dari<br />Alm. Bapak Selyan Napitupulu &amp; Ibu Moira Lynn Elizabeth Sianturi</p>
               <a href="#wishes">@reynaldorici</a>
             </article>
             <div className="ampersand">&amp;<small>with love</small></div>
             <article className="personCard bride">
-              <div className="portrait portraitBride"><span>H</span><Flower /></div>
+              <div className="portrait portraitBride">
+                <img src="/images/bride-herlina.jpg" alt="Herlina Mariana Pardede" />
+              </div>
               <p className="role">The Bride</p>
-              <h3>Herlina Pardede</h3>
-              <p>Putri terkasih dari<br />Bapak [Nama Ayah] &amp; Ibu [Nama Ibu]</p>
+              <h3>Herlina Mariana Pardede</h3>
+              <p>Putri terkasih dari<br />Bapak Rusman Pardede &amp; Ibu Dumawati Panggabean</p>
               <a href="#wishes">@herlinapardede</a>
             </article>
           </div>
         </section>
 
         <section className="storyBand">
-          <div className="storyPhoto"><Flower /><span>R &amp; H</span></div>
+          <div className="storyPhoto" role="img" aria-label="Reynaldo dan Herlina tertawa bersama" />
           <div className="storyCopy">
             <p className="kicker">Our story</p>
             <h2>Dari sebuah pertemuan,<br />menjadi satu tujuan.</h2>
@@ -196,12 +274,28 @@ export default function Home() {
             <div className="wishQuote">“May your love keep blooming, through every season.”</div>
           </div>
           <form className="wishForm" onSubmit={sendWish}>
-            <label>Nama Tamu<input required name="name" placeholder="Tulis nama lengkap" /></label>
-            <label>Konfirmasi Kehadiran<select name="attendance" defaultValue=""><option value="" disabled>Pilih jawaban</option><option>Ya, saya akan hadir</option><option>Maaf, belum dapat hadir</option></select></label>
+            <div className="guestIdentity">
+              <span>Nama Tamu</span>
+              <strong>{guestName}</strong>
+              <input type="hidden" name="name" value={guestName} />
+            </div>
+            <label>Konfirmasi Kehadiran<select required name="attendance" defaultValue=""><option value="" disabled>Pilih jawaban</option><option>Ya, saya hadir di pemberkatan</option><option>Ya, saya hadir di resepsi</option><option>Ya, saya hadir di pemberkatan dan resepsi</option><option>Maaf, belum dapat hadir.</option></select></label>
             <label>Ucapan &amp; Doa<textarea required name="message" rows={5} placeholder="Tuliskan doa dan harapan terbaikmu" /></label>
-            <button className="primaryButton" type="submit">Kirim Ucapan <span>↗</span></button>
-            {sent && <p className="success" role="status">Terima kasih. Ucapanmu sudah tersimpan di perangkat ini ♡</p>}
+            <button className="primaryButton" type="submit" disabled={sending}>{sending ? "Mengirim..." : "Kirim Konfirmasi & Ucapan"} <span>↗</span></button>
+            {sent && <p className="success" role="status">Terima kasih. Konfirmasi dan ucapanmu sudah tersimpan ♡</p>}
+            {submitError && <p className="formError" role="alert">{submitError}</p>}
           </form>
+          {wishes.length > 0 && (
+            <div className="wishList" aria-label="Ucapan tamu">
+              <p className="kicker">Ucapan Tamu</p>
+              {wishes.map((wish) => (
+                <article className="wishItem" key={wish.id}>
+                  <strong>{wish.name}</strong>
+                  <p>{wish.message}</p>
+                </article>
+              ))}
+            </div>
+          )}
         </section>
 
         <footer>

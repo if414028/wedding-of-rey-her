@@ -11,7 +11,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "The Wedding of Reynaldo & Herlina",
     description: "Undangan pernikahan Reynaldo Rici dan Herlina Pardede — a love that keeps blooming.",
-    icons: { icon: "/favicon.svg" },
+    icons: {
+      icon: [{ url: "/images/wedding-logo-rh.png", type: "image/png" }],
+      shortcut: "/images/wedding-logo-rh.png",
+      apple: "/images/wedding-logo-rh.png",
+    },
     openGraph: {
       title: "The Wedding of Reynaldo & Herlina",
       description: "22 · 08 · 2026 — A love that keeps blooming.",

@@ -5,9 +5,9 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 type Wish = { id: string; timestamp: string; name: string; message: string };
 
 const galleryItems = [
-  { caption: "A quiet beginning", src: "/images/cover-reynaldo-herlina.jpg" },
-  { caption: "Growing together", src: "/images/story-reynaldo-herlina.jpg" },
-  { caption: "Our forever", src: "/images/hero-reynaldo-herlina.jpg" },
+  { caption: "A quiet beginning", src: "/images/cover-reynaldo-herlina.webp" },
+  { caption: "Growing together", src: "/images/story-reynaldo-herlina.webp" },
+  { caption: "Our forever", src: "/images/hero-reynaldo-herlina.webp" },
   { caption: "Held close", src: "/images/gallery-agn02729.webp" },
   { caption: "A promise begins", src: "/images/gallery-dsc02128.webp" },
   { caption: "Joyfully ours", src: "/images/gallery-dsc02362.webp" },
@@ -264,11 +264,11 @@ export default function Home() {
 
   return (
     <main className={opened ? "site isOpen" : "site"}>
-      <audio ref={audioRef} src="/audio/at-your-feet.mp3" preload="metadata" loop />
+      <audio ref={audioRef} src="/audio/at-your-feet.mp3" preload="none" loop />
       <section className="cover" aria-hidden={opened}>
         <div className="coverGlow" />
         <div className="coverCard">
-          <img className="coverLogo" src="/images/wedding-logo-rh.png" alt="Monogram RH" />
+          <img className="coverLogo" src="/images/wedding-logo-rh.webp" alt="Monogram RH" width="1000" height="1000" decoding="async" />
           <p className="to">Kepada Yth. Bapak/Ibu/Saudara/i</p>
           <p className="guest">{guestName}</p>
           <button className="primaryButton" onClick={openInvitation} aria-controls="invitation" aria-expanded={opened}>
@@ -285,7 +285,7 @@ export default function Home() {
       <div className="invitation" id="invitation" ref={invitationRef} tabIndex={-1} aria-hidden={!opened}>
         <section className="hero" id="home">
           <p className="eyebrow">Two hearts, one promise</p>
-          <img className="heroLogo" src="/images/hero-logo-rh.svg" alt="Monogram Reynaldo dan Herlina" />
+          <img className="heroLogo" src="/images/hero-logo-rh.svg" alt="Monogram Reynaldo dan Herlina" loading="lazy" decoding="async" />
           <p className="heroDate">22 · 08 · 2026</p>
           <p className="heroCopy">Sebuah perayaan tentang cinta yang tumbuh,<br />berakar dalam doa, dan mekar selamanya.</p>
           <a className="textLink" href="#event">Simpan tanggalnya <span aria-hidden="true">↓</span></a>
@@ -305,7 +305,7 @@ export default function Home() {
           <div className="coupleGrid">
             <article className="personCard groom">
               <div className="portrait portraitGroom">
-                <img src="/images/groom-reynaldo-portrait.png" alt="Reynaldo Leoricci Mikhael Napitupulu" loading="lazy" decoding="async" />
+                <img src="/images/groom-reynaldo-portrait.webp" alt="Reynaldo Leoricci Mikhael Napitupulu" loading="lazy" decoding="async" />
               </div>
               <p className="role">The Groom</p>
               <h3>Reynaldo Leoricci Mikhael Napitupulu</h3>
@@ -315,7 +315,7 @@ export default function Home() {
             <div className="ampersand">&amp;<small>with love</small></div>
             <article className="personCard bride">
               <div className="portrait portraitBride">
-                <img src="/images/bride-herlina-fix.png" alt="Herlina Mariana Pardede" loading="lazy" decoding="async" />
+                <img src="/images/bride-herlina-fix.webp" alt="Herlina Mariana Pardede" loading="lazy" decoding="async" />
               </div>
               <p className="role">The Bride</p>
               <h3>Herlina Mariana Pardede</h3>

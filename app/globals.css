@@ -58,9 +58,9 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 ::selection { background: var(--rose-soft); color: var(--espresso-deep); }
 
 .site { min-height: 100vh; }
-.invitation { opacity: 0; visibility: hidden; transition: opacity .8s ease; }
+.invitation { display: none; opacity: 0; visibility: hidden; transition: opacity .8s ease; }
 .invitation:focus { outline: 0; }
-.isOpen .invitation { opacity: 1; visibility: visible; }
+.isOpen .invitation { display: block; opacity: 1; visibility: visible; }
 .section { padding: clamp(5rem, 10vw, 8rem) var(--gutter); }
 .eyebrow, .kicker, .role { margin: 0; text-transform: uppercase; letter-spacing: .22em; font-size: .72rem; font-weight: 750; }
 .sectionHeading h2, .storyCopy h2, .giftCard h2, .wishesIntro h2, footer h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.045em; }
@@ -70,7 +70,7 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 .centered { text-align: center; }
 .centered > p:last-child { max-width: 38rem; margin: 0 auto; color: var(--ink-soft); line-height: 1.75; }
 
-.cover { position: fixed; z-index: 50; inset: 0; display: grid; place-items: end center; overflow: hidden; background: #26382d url('/images/cover-reynaldo-herlina.jpg') center/cover no-repeat; color: #fff; transition: transform 1s cubic-bezier(.76,0,.24,1), opacity .8s ease; }
+.cover { position: fixed; z-index: 50; inset: 0; display: grid; place-items: end center; overflow: hidden; background: #26382d url('/images/cover-reynaldo-herlina.webp') center/cover no-repeat; color: #fff; transition: transform 1s cubic-bezier(.76,0,.24,1), opacity .8s ease; }
 .cover::before { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(13,18,14,.68), rgba(13,18,14,.06) 58%, rgba(13,18,14,.24)); }
 .isOpen .cover { transform: translateY(-105%); opacity: 0; pointer-events: none; }
 .coverGlow { position: absolute; z-index: 1; inset: clamp(.75rem, 3vw, 2rem); border: 1px solid rgba(255,255,255,.48); border-radius: 28px; }
@@ -87,7 +87,7 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 .primaryButton:active, .calendarButton:active { transform: scale(.95); }
 .primaryButton:disabled { cursor: not-allowed; opacity: .58; box-shadow: none; }
 
-.hero { min-height: 100svh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5.5rem 1.25rem; text-align: center; background: linear-gradient(rgba(255,250,242,.44), rgba(242,240,235,.56)), url('/images/agn02614-ivy-frame-v2.png') center 44%/cover no-repeat; }
+.hero { min-height: 100svh; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5.5rem 1.25rem; text-align: center; background: linear-gradient(rgba(255,250,242,.44), rgba(242,240,235,.56)), url('/images/agn02614-ivy-frame-v2.webp') center 44%/cover no-repeat; }
 .heroLogo { width: clamp(12.5rem, 31vw, 25rem); margin: 1.5rem auto 1rem; z-index: 2; filter: drop-shadow(0 3px 16px rgba(255,250,241,.65)); }
 .heroDate { margin: .6rem 0; letter-spacing: .38em; font-size: .8rem; }
 .heroCopy { max-width: 34rem; margin: .8rem auto; font: 400 1.05rem/1.75 var(--serif); color: var(--ink); text-shadow: 0 1px 12px rgba(255,255,255,.9); }
@@ -113,7 +113,7 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 .ampersand small { display: block; font: 700 .55rem var(--sans); text-transform: uppercase; letter-spacing: .25em; color: var(--ink); }
 
 .storyBand { min-height: 45rem; display: grid; grid-template-columns: 1fr 1fr; background: var(--espresso); }
-.storyPhoto { min-height: 38rem; background: linear-gradient(rgba(53,34,25,.08),rgba(53,34,25,.18)), url('/images/story-reynaldo-herlina.jpg') center/cover no-repeat; }
+.storyPhoto { min-height: 38rem; background: linear-gradient(rgba(53,34,25,.08),rgba(53,34,25,.18)), url('/images/story-reynaldo-herlina.webp') center/cover no-repeat; }
 .storyCopy { padding: clamp(4rem, 8vw, 8rem); display: flex; flex-direction: column; justify-content: center; color: #fff; background: var(--espresso); }
 .storyCopy h2 { margin: 1.2rem 0; font-size: clamp(2.8rem, 5vw, 4.8rem); line-height: 1.05; }
 .storyCopy .storyTitle { max-width: 46rem; font-size: clamp(2.2rem, 4.25vw, 4.15rem); line-height: 1.08; text-transform: uppercase; }

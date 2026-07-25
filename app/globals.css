@@ -164,10 +164,6 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 .giftCard { position: relative; max-width: 48rem; margin: auto; padding: clamp(4rem, 8vw, 6rem); border: 1px solid rgba(0,98,65,.14); border-radius: var(--radius-card); text-align: center; background: rgba(255,255,255,.86); box-shadow: var(--shadow-card); }
 .giftCard h2 { margin: 1rem 0; font-size: clamp(3.5rem, 7vw, 4.5rem); }
 .giftCard > p:not(.kicker) { color: var(--ink-soft); line-height: 1.8; }
-.sendGiftButton { min-width: 12rem; min-height: 50px; margin: 1.7rem auto 0; padding: .8rem 1.4rem; display: inline-flex; align-items: center; justify-content: center; gap: 1.3rem; border: 1px solid #00754a; border-radius: 50px; background: #00754a; color: #fff; font-weight: 700; letter-spacing: .01em; box-shadow: 0 0 0 0 rgba(0,117,74,.28), 0 8px 18px rgba(0,98,65,.16); animation: giftBreath 2.8s ease-in-out infinite; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
-.sendGiftButton:hover { background: #006241; }
-.sendGiftButton:active { transform: scale(.95); }
-@keyframes giftBreath { 0%,100% { box-shadow: 0 0 0 0 rgba(0,117,74,.2), 0 8px 18px rgba(0,98,65,.14); } 50% { box-shadow: 0 0 0 9px rgba(0,117,74,0), 0 10px 26px rgba(0,98,65,.25); } }
 .giftAccounts { margin-top: 2.4rem; display: grid; gap: .85rem; text-align: left; animation: giftReveal .45s cubic-bezier(.22,1,.36,1) both; }
 @keyframes giftReveal { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
 .bankCard { padding: 1.4rem 1.5rem; border: 0; border-radius: var(--radius-card); background: #fff; box-shadow: 0 0 .5px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.12); }

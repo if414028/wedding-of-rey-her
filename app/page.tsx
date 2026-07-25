@@ -138,7 +138,6 @@ export default function Home() {
   const [guestName, setGuestName] = useState("Tamu Undangan");
   const [guestSlug, setGuestSlug] = useState("");
   const [musicMuted, setMusicMuted] = useState(false);
-  const [giftOpen, setGiftOpen] = useState(false);
   const [copiedAccount, setCopiedAccount] = useState("");
   const invitationRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -309,7 +308,11 @@ export default function Home() {
               </div>
               <p className="role">The Groom</p>
               <h3>Reynaldo Leoricci Mikhael Napitupulu</h3>
-              <p>Putera dari<br />Bpk S. Napitupulu (+) &amp; Ibu BP. Tobing (+) / Ibu Ev. M. Sianturi</p>
+              <p>
+                Putera dari<br />
+                Bpk S. Napitupulu (+) &amp; Ibu BP. Tobing (+) /<br />
+                Ibu Ev. Moira L. Elizabeth Sianturi
+              </p>
               <a href="https://www.instagram.com/reyleoricci?igsh=c2dmejdhMmdtYXR6&amp;utm_source=qr" target="_blank" rel="noreferrer">@reyleoricci</a>
             </article>
             <div className="ampersand">&amp;<small>with love</small></div>
@@ -332,7 +335,7 @@ export default function Home() {
             <h2 className="storyTitle">Dipertemukan oleh kasih,<br />dipelihara oleh anugerah,<br />dipersatukan dalam Tuhan.</h2>
             <div className="storyText">
               <p>Kami percaya bahwa pertemuan kami bukanlah sebuah kebetulan. Di setiap musim perjalanan, Tuhan dengan setia menuntun, memelihara, dan mengajarkan kami untuk bertumbuh dalam kasih.</p>
-              <p>Melalui sukacita, penantian, dan setiap proses yang kami jalani bersama, kami semakin melihat kebaikan-Nya nyata dalam kisah ini. Kini, dengan hati yang penuh syukur, kami melangkah menuju sebuah perjanjian kudus dan mengundang Anda menjadi bagian dari hari bahagia kami.</p>
+              <p>Melalui sukacita, penantian, dan setiap proses yang kami jalani bersama, kami semakin melihat kebaikan-Nya nyata dalam kisah ini. Kini, dengan hati yang penuh syukur, kami melangkah menuju sebuah perjanjian kudus dan mengundang Bpk/Ibu/Saudara/Sahabat/Orangtua Rohani/Teman Pelayanan/Kolega menjadi bagian dari hari bahagia kami.</p>
             </div>
             <span className="signature">Rey &amp; Herlina</span>
           </div>
@@ -342,7 +345,7 @@ export default function Home() {
           <div className="sectionHeading centered">
             <p className="kicker">Save the date</p>
             <h2>Hari yang Telah<br /><i>Kami Nantikan</i></h2>
-            <p>Dengan penuh sukacita, kami mengundang Anda untuk hadir dan memberi doa restu.</p>
+            <p>Dengan penuh sukacita, kami mengundang Bpk/Ibu/Saudara/Sahabat/Orangtua Rohani/Teman Pelayanan/Kolega untuk hadir dan memberi doa restu.</p>
           </div>
           <Countdown />
           <div className="eventGrid">
@@ -382,31 +385,29 @@ export default function Home() {
           <div className="giftCard">
             <p className="kicker">A token of love</p>
             <h2>Wedding Gift</h2>
-            <p>Kehadiran dan doa restu Anda adalah hadiah terindah bagi kami. Bagi yang berkenan berbagi tanda kasih, informasi hadiah digital tersedia melalui tombol berikut.</p>
-            <button className="sendGiftButton" type="button" onClick={() => setGiftOpen((value) => !value)} aria-expanded={giftOpen} aria-controls="giftAccounts">
-              {giftOpen ? "Tutup Informasi" : "Send Gift"}
-              <span aria-hidden="true">{giftOpen ? "×" : "↗"}</span>
-            </button>
-            {giftOpen && (
-              <div className="giftAccounts" id="giftAccounts">
-                {giftAccounts.map((account) => (
-                  <article className="bankCard" key={`${account.bank}-${account.number}`}>
-                    <div className="bankHeader">
-                      <span className="bankName">{account.bank}</span>
-                    </div>
-                    <h3>{account.name}</h3>
-                    <div className="accountPanel">
-                      <span>Nomor Rekening</span>
-                      <strong>{account.number}</strong>
-                      <button type="button" onClick={() => void copyAccount(account.number)} aria-label={`Salin nomor rekening ${account.name}`}>
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
-                        {copiedAccount === account.number ? "Tersalin" : "Salin"}
-                      </button>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
+            <p>
+              Kehadiran dan doa restu Bpk/Ibu/Saudara/Sahabat/Orangtua Rohani/Teman Pelayanan/Kolega adalah hadiah terindah bagi kami.
+              <br />
+              Bagi yang berkenan berbagi tanda kasih, informasi hadiah digital tersedia di bawah ini.
+            </p>
+            <div className="giftAccounts" id="giftAccounts">
+              {giftAccounts.map((account) => (
+                <article className="bankCard" key={`${account.bank}-${account.number}`}>
+                  <div className="bankHeader">
+                    <span className="bankName">{account.bank}</span>
+                  </div>
+                  <h3>{account.name}</h3>
+                  <div className="accountPanel">
+                    <span>Nomor Rekening</span>
+                    <strong>{account.number}</strong>
+                    <button type="button" onClick={() => void copyAccount(account.number)} aria-label={`Salin nomor rekening ${account.name}`}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+                      {copiedAccount === account.number ? "Tersalin" : "Salin"}
+                    </button>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -444,7 +445,7 @@ export default function Home() {
         <footer>
           <p className="kicker">With love</p>
           <h2>Reynaldo <span>&amp;</span> Herlina</h2>
-          <p>Merupakan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.</p>
+          <p>Merupakan kehormatan bagi kami apabila Bapak/Ibu/Saudara/Sahabat/Orangtua Rohani/Teman Pelayanan/Kolega berkenan hadir dan memberikan doa restu.</p>
           <small>Made with love · 2026</small>
         </footer>
       </div>

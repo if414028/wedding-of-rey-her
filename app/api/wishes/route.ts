@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const url = new URL(appsScriptUrl);
     url.searchParams.set("token", appsScriptToken);
-    url.searchParams.set("limit", "20");
+    url.searchParams.set("limit", "1000");
     const response = await fetch(url, { redirect: "follow", cache: "no-store" });
     const result = (await response.json()) as {
       ok?: boolean;

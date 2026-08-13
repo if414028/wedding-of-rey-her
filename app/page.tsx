@@ -4,6 +4,8 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type Wish = { id: string; timestamp: string; name: string; message: string };
 
+const WISHES_PER_PAGE = 5;
+
 const galleryItems = [
   { caption: "A quiet beginning", src: "/images/cover-reynaldo-herlina.webp" },
   { caption: "Growing together", src: "/images/story-reynaldo-herlina.webp" },
@@ -135,12 +137,22 @@ export default function Home() {
   const [sending, setSending] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [wishes, setWishes] = useState<Wish[]>([]);
+  const [wishPage, setWishPage] = useState(1);
   const [guestName, setGuestName] = useState("Tamu Undangan");
   const [guestSlug, setGuestSlug] = useState("");
   const [musicMuted, setMusicMuted] = useState(false);
   const [copiedAccount, setCopiedAccount] = useState("");
   const invitationRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const wishPageCount = Math.max(1, Math.ceil(wishes.length / WISHES_PER_PAGE));
+  const visibleWishes = useMemo(() => {
+    const start = (wishPage - 1) * WISHES_PER_PAGE;
+    return wishes.slice(start, start + WISHES_PER_PAGE);
+  }, [wishPage, wishes]);
+
+  useEffect(() => {
+    setWishPage((page) => Math.min(page, wishPageCount));
+  }, [wishPageCount]);
 
   useEffect(() => {
     const slug = decodeURIComponent(window.location.pathname.split("/").filter(Boolean)[0] ?? "");
@@ -220,7 +232,10 @@ export default function Home() {
 
       const wishesResponse = await fetch("/api/wishes");
       const wishesResult = (await wishesResponse.json()) as { ok?: boolean; wishes?: Wish[] };
-      if (wishesResult.ok && Array.isArray(wishesResult.wishes)) setWishes(wishesResult.wishes);
+      if (wishesResult.ok && Array.isArray(wishesResult.wishes)) {
+        setWishes(wishesResult.wishes);
+        setWishPage(1);
+      }
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Konfirmasi belum berhasil dikirim.");
     } finally {
@@ -432,12 +447,24 @@ export default function Home() {
           {wishes.length > 0 && (
             <div className="wishList" aria-label="Ucapan tamu">
               <p className="kicker">Ucapan Tamu</p>
-              {wishes.map((wish) => (
+              <p className="wishCount">Menampilkan {((wishPage - 1) * WISHES_PER_PAGE) + 1}–{Math.min(wishPage * WISHES_PER_PAGE, wishes.length)} dari {wishes.length} ucapan</p>
+              {visibleWishes.map((wish) => (
                 <article className="wishItem" key={wish.id}>
                   <strong>{wish.name}</strong>
                   <p>{wish.message}</p>
                 </article>
               ))}
+              {wishPageCount > 1 && (
+                <nav className="wishPagination" aria-label="Navigasi halaman ucapan">
+                  <button type="button" onClick={() => setWishPage((page) => Math.max(1, page - 1))} disabled={wishPage === 1} aria-label="Halaman ucapan sebelumnya">←</button>
+                  <div className="wishPageNumbers">
+                    {Array.from({ length: wishPageCount }, (_, index) => index + 1).map((page) => (
+                      <button type="button" className={wishPage === page ? "isActive" : ""} onClick={() => setWishPage(page)} aria-label={`Buka halaman ucapan ${page}`} aria-current={wishPage === page ? "page" : undefined} key={page}>{page}</button>
+                    ))}
+                  </div>
+                  <button type="button" onClick={() => setWishPage((page) => Math.min(wishPageCount, page + 1))} disabled={wishPage === wishPageCount} aria-label="Halaman ucapan berikutnya">→</button>
+                </nav>
+              )}
             </div>
           )}
         </section>

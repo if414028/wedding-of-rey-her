@@ -193,9 +193,17 @@ img { display: block; max-width: 100%; transition: opacity .3s ease-in; }
 .success { background: rgba(102,113,90,.12); color: #46513d; }
 .formError { background: rgba(159,47,47,.08); color: #8c2929; }
 .wishList { grid-column: 1/-1; width: min(100%,48rem); margin: 1.5rem auto 0; display: grid; gap: .75rem; }
+.wishCount { margin: -.2rem 0 .35rem; color: var(--ink-soft); font-size: .8rem; }
 .wishItem { padding: 1.1rem 1.25rem; border: 1px solid rgba(0,98,65,.13); border-radius: var(--radius-card); background: rgba(255,255,255,.84); box-shadow: var(--shadow-card); }
 .wishItem strong { color: var(--espresso); font: 600 1.05rem var(--serif); }
 .wishItem p { margin: .45rem 0 0; line-height: 1.65; }
+.wishPagination { margin-top: .8rem; display: flex; align-items: center; justify-content: center; gap: .65rem; }
+.wishPagination button { min-width: 2.65rem; height: 2.65rem; padding: 0 .75rem; display: grid; place-items: center; border: 1px solid rgba(0,98,65,.22); border-radius: 999px; background: rgba(255,255,255,.76); color: #006241; font: 700 .8rem var(--sans); cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s ease; }
+.wishPagination button:hover:not(:disabled), .wishPagination button.isActive { border-color: #00754a; background: #00754a; color: #fff; }
+.wishPagination button:focus-visible { outline: 3px solid rgba(0,117,74,.2); outline-offset: 2px; }
+.wishPagination button:active:not(:disabled) { transform: scale(.95); }
+.wishPagination button:disabled { opacity: .35; cursor: not-allowed; }
+.wishPageNumbers { display: flex; gap: .4rem; overflow-x: auto; padding: .2rem; scrollbar-width: thin; }
 
 footer { min-height: 32rem; padding: 5rem 1.25rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff; background: var(--espresso-deep); }
 footer h2 { margin: 1.2rem 0; font-size: clamp(3.4rem, 9vw, 6rem); }
@@ -256,6 +264,9 @@ footer small { margin-top: 2.8rem; text-transform: uppercase; letter-spacing: .2
   .wishQuote { font-size: 1.35rem; }
   .wishForm { padding: 1.1rem; }
   .wishForm .primaryButton { width: 100%; }
+  .wishPagination { gap: .4rem; }
+  .wishPagination button { min-width: 2.5rem; height: 2.5rem; padding: 0 .65rem; }
+  .wishPageNumbers { max-width: calc(100vw - 9rem); }
   footer { padding-bottom: max(5rem, env(safe-area-inset-bottom)); }
 }
 
